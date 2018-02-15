@@ -198,9 +198,11 @@ LTC_EXPORT int   LTC_CALL XSTRCMP(const char *s1, const char *s2);
 #ifdef _MSC_VER
    #define CONST64(n) n ## ui64
    typedef unsigned __int64 ulong64;
+   typedef __int64 long64;
 #else
    #define CONST64(n) n ## ULL
    typedef unsigned long long ulong64;
+   typedef long long long64;
 #endif
 
 /* ulong32: "32-bit at least" data type */
@@ -211,11 +213,13 @@ LTC_EXPORT int   LTC_CALL XSTRCMP(const char *s1, const char *s2);
     defined(__ia64) || defined(__ia64__) || defined(__itanium__) || defined(_M_IA64) || \
     defined(__LP64__) || defined(_LP64) || defined(__64BIT__)
    typedef unsigned ulong32;
+   typedef signed long32;
    #if !defined(ENDIAN_64BITWORD) && !defined(ENDIAN_32BITWORD)
      #define ENDIAN_64BITWORD
    #endif
 #else
    typedef unsigned long ulong32;
+   typedef long long32;
    #if !defined(ENDIAN_64BITWORD) && !defined(ENDIAN_32BITWORD)
      #define ENDIAN_32BITWORD
    #endif
