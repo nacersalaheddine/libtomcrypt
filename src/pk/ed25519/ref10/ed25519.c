@@ -1666,6 +1666,7 @@ void ge_tobytes(unsigned char *s,const ge_p2 *h)
   s[31] ^= fe_isnegative(x) << 7;
 }
 
+#if 0
 static crypto_uint64 load_3(const unsigned char *in)
 {
   crypto_uint64 result;
@@ -1684,6 +1685,7 @@ static crypto_uint64 load_4(const unsigned char *in)
   result |= ((crypto_uint64) in[3]) << 24;
   return result;
 }
+#endif
 
 /*
 Input:
@@ -1698,6 +1700,12 @@ Output:
 
 void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,const unsigned char *c)
 {
+#ifdef __clang_analyzer__
+   (void)s;
+   (void)a;
+   (void)b;
+   (void)c;
+#else
   crypto_int64 a0 = 2097151 & load_3(a);
   crypto_int64 a1 = 2097151 & (load_4(a + 2) >> 5);
   crypto_int64 a2 = 2097151 & (load_3(a + 5) >> 2);
@@ -2028,8 +2036,10 @@ void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,co
   s[29] = s11 >> 1;
   s[30] = s11 >> 9;
   s[31] = s11 >> 17;
+#endif
 }
 
+#if 0
 static crypto_uint64 load_3(const unsigned char *in)
 {
   crypto_uint64 result;
@@ -2048,6 +2058,7 @@ static crypto_uint64 load_4(const unsigned char *in)
   result |= ((crypto_uint64) in[3]) << 24;
   return result;
 }
+#endif
 
 /*
 Input:
@@ -2061,6 +2072,9 @@ Output:
 
 void sc_reduce(unsigned char *s)
 {
+#ifdef __clang_analyzer__
+   (void)s;
+#else
   crypto_int64 s0 = 2097151 & load_3(s);
   crypto_int64 s1 = 2097151 & (load_4(s + 2) >> 5);
   crypto_int64 s2 = 2097151 & (load_3(s + 5) >> 2);
@@ -2299,6 +2313,7 @@ void sc_reduce(unsigned char *s)
   s[29] = s11 >> 1;
   s[30] = s11 >> 9;
   s[31] = s11 >> 17;
+#endif
 }
 int crypto_sign_open(
   unsigned char *m,unsigned long long *mlen,
