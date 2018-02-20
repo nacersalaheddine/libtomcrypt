@@ -32,7 +32,9 @@ int rand_bn_upto(void *N, void *limit, prng_state *prng, int wprng);
 
 enum public_key_algorithms {
    PKA_RSA,
-   PKA_DSA
+   PKA_DSA,
+   PKA_ED25519,
+   PKA_X25519,
 };
 
 typedef struct Oid {
@@ -458,6 +460,100 @@ int ltc_ecc_map(ecc_point *P, void *modulus, void *mp);
 #endif /* LTC_SOURCE */
 
 #endif
+
+#ifdef LTC_CURVE25519
+
+typedef struct {
+   /** The key type, PK_PRIVATE or PK_PUBLIC */
+   enum public_key_type type;
+
+   /** The PK-algorithm, PKA_ED25519 or PKA_X25519 */
+   enum public_key_algorithms algo;
+
+   /** The private key */
+   unsigned char priv[32];
+
+   /** The public key */
+   unsigned char pub[32];
+} curve25519_key;
+
+#ifdef LTC_SOURCE
+/* internal helper functions */
+typedef long32 crypto_int32;
+typedef ulong32 crypto_uint32;
+typedef long64 crypto_int64;
+typedef ulong64 crypto_uint64;
+typedef crypto_int32 fe[10];
+void fe_cswap(fe f,fe g,unsigned int b);
+#endif
+
+#endif /* LTC_CURVE25519 */
+
+#ifdef LTC_ED25519
+
+int ed25519_make_key(prng_state *prng, int wprng, curve25519_key *key);
+
+int ed25519_export(       unsigned char *out, unsigned long *outlen,
+                                    int  which,
+                   const curve25519_key *key);
+
+int ed25519_import(const unsigned char *in, unsigned long inlen, curve25519_key *key);
+
+int ed25519_set_key(const unsigned char *sk, unsigned long sklen,
+                    const unsigned char *pk, unsigned long pklen,
+                         curve25519_key *key);
+
+int ed25519_sign(const unsigned char  *msg, unsigned long msglen,
+                       unsigned char  *sig, unsigned long *siglen,
+                 const curve25519_key *private_key);
+
+int ed25519_verify(const  unsigned char *msg, unsigned long msglen,
+                   const  unsigned char *sig, unsigned long siglen,
+                   int *stat, const curve25519_key *public_key);
+
+#ifdef LTC_SOURCE
+/* internal helper functions */
+int crypto_sign(
+  unsigned char *sm,unsigned long long *smlen,
+  const unsigned char *m,unsigned long long mlen,
+  const unsigned char *sk, const unsigned char *pk);
+int crypto_sign_open(
+  unsigned char *m,unsigned long long *mlen,
+  const unsigned char *sm,unsigned long long smlen,
+  const unsigned char *pk);
+int crypto_sign_keypair(prng_state *prng, int wprng, unsigned char *pk,unsigned char *sk);
+int crypto_sk_to_pk(unsigned char *pk, const unsigned char *sk);
+#endif
+
+#endif /* LTC_ED25519 */
+
+#ifdef LTC_X25519
+
+int x25519_make_key(prng_state *prng, int wprng, curve25519_key *key);
+
+int x25519_export(       unsigned char *out, unsigned long *outlen,
+                                   int  which,
+                  const curve25519_key *key);
+
+int x25519_import(const unsigned char *in, unsigned long inlen, curve25519_key *key);
+
+int x25519_set_ku(const unsigned char *k,  unsigned long klen,
+                  const unsigned char *u,  unsigned long ulen,
+                       curve25519_key *key);
+
+int x25519_shared_secret(const curve25519_key *private_key,
+                         const curve25519_key *public_key,
+                                unsigned char *out, unsigned long *outlen);
+
+int x25519_test(void);
+
+#ifdef LTC_SOURCE
+/* internal helper functions */
+int crypto_scalarmult(unsigned char *q, const unsigned char *n, const unsigned char *p);
+int crypto_scalarmult_base(unsigned char *q,const unsigned char *n);
+#endif
+
+#endif /* LTC_X25519 */
 
 #ifdef LTC_MDSA
 
