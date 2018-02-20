@@ -60,6 +60,10 @@ sub check_source {
           $file !~ m|src/ciphers/.*\.c$| &&
           $file !~ m|src/hashes/.*\.c$| &&
           $file !~ m|src/math/.+_desc.c$| &&
+          $file !~ m|src/pk/x25519/ref10/.*\.c$| &&
+          $file !~ m|src/pk/x25519/ref10/.*\.h$| &&
+          $file !~ m|src/pk/ed25519/ref10/.*\.c$| &&
+          $file !~ m|src/pk/ed25519/ref10/.*\.h$| &&
           $file !~ m|src/stream/sober128/sober128_stream.c$| &&
           $l =~ /^static(\s+[a-zA-Z0-9_]+)+\s+([^_][a-zA-Z0-9_]+)\s*\(/) {
         push @{$troubles->{staticfunc_name}}, "$lineno($2)";
@@ -291,7 +295,7 @@ sub process_makefiles {
   my @c = ();
   find({ no_chdir => 1, wanted => sub { push @c, $_ if -f $_ && $_ =~ /\.c$/ && $_ !~ /tab.c$/ } }, 'src');
   my @h = ();
-  find({ no_chdir => 1, wanted => sub { push @h, $_ if -f $_ && $_ =~ /\.h$/ && $_ !~ /dh_static.h$/ } }, 'src');
+  find({ no_chdir => 1, wanted => sub { push @h, $_ if -f $_ && $_ =~ /\.h$/ } }, 'src/headers');
   my @all = ();
   find({ no_chdir => 1, wanted => sub { push @all, $_ if -f $_ && $_ =~ /\.(c|h)$/  } }, 'src');
   my @t = qw();
