@@ -66,7 +66,11 @@ $(ED_HEADERS):
 	cat ed25519/fe.h >> $@
 	cat ed25519/ge.h >> $@
 	cat ed25519/sc.h >> $@
+	cat ed25519-modified/verify.c >> $@
 	find ed25519 -name 'fe_*.c' -o -name 'ge_*.c' -o -name 'sc_*.c' | sort | xargs -I {} cat {} >> $@
+	cat ed25519-modified/open.c >> $@
+	cat ed25519-modified/sign.c >> $@
+	cat ed25519-modified/keypair.c >> $@
 	cat footer >> $@
 	sed -i -e '/#include "crypto_[a-zA-Z0-9].*\.h"/d' -e '/#include "fe\.h"/d' -e '/#include "ge\.h"/d' -e '/#include "sc\.h"/d' -e '/#include "randombytes\.h"/d' $@
 	sed -i -e '/extern void fe_cswap/d' -e '/crypto_sign_ed25519_ref10_fe_cswap/d' $@

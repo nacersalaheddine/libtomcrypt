@@ -1,10 +1,3 @@
-#include <string.h>
-#include "crypto_sign.h"
-#include "crypto_hash_sha512.h"
-#include "crypto_verify_32.h"
-#include "ge.h"
-#include "sc.h"
-
 int crypto_sign_open(
   unsigned char *m,unsigned long long *mlen,
   const unsigned char *sm,unsigned long long smlen,
@@ -18,6 +11,8 @@ int crypto_sign_open(
   unsigned char rcheck[32];
   ge_p3 A;
   ge_p2 R;
+  unsigned long len;
+  int err, hash_idx;
 
   if (smlen < 64) goto badsig;
   if (sm[63] & 224) goto badsig;
@@ -29,7 +24,10 @@ int crypto_sign_open(
 
   memmove(m,sm,smlen);
   memmove(m + 32,pkcopy,32);
-  crypto_hash_sha512(h,m,smlen);
+  /* crypto_hash_sha512(h,m,smlen); */
+  hash_idx = find_hash("sha512");
+  len = sizeof(h);
+  if ((err = hash_memory(hash_idx, m, smlen, h, &len)) != CRYPT_OK) return err;
   sc_reduce(h);
 
   ge_double_scalarmult_vartime(&R,h,&A,scopy);
@@ -38,11 +36,11 @@ int crypto_sign_open(
     memmove(m,m + 64,smlen - 64);
     memset(m + smlen - 64,0,64);
     *mlen = smlen - 64;
-    return 0;
+    return CRYPT_OK;
   }
 
 badsig:
   *mlen = -1;
   memset(m,0,smlen);
-  return -1;
+  return CRYPT_ERROR;
 }
