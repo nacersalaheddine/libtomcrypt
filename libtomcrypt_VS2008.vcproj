@@ -2144,6 +2144,18 @@
 				</Filter>
 			</Filter>
 			<Filter
+				Name="curve25519"
+				>
+				<Filter
+					Name="ref10"
+					>
+					<File
+						RelativePath="src\pk\curve25519\ref10\curve25519.c"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
 				Name="dh"
 				>
 				<File
@@ -2384,6 +2396,90 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="ed25519"
+				>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_export.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_import.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_make_key.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_set_key.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_sign.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\ed25519\ed25519_verify.c"
+					>
+				</File>
+				<Filter
+					Name="ref10"
+					>
+					<File
+						RelativePath="src\pk\ed25519\ref10\base.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\base2.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\d.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\d2.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ed25519.c"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ge_add.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ge_madd.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ge_msub.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ge_p2_dbl.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\ge_sub.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\pow22523.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\pow225521.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\ed25519\ref10\sqrtm1.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
 				Name="katja"
 				>
 				<File
@@ -2514,6 +2610,46 @@
 					RelativePath="src\pk\rsa\rsa_verify_hash.c"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="x25519"
+				>
+				<File
+					RelativePath="src\pk\x25519\x25519_export.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\x25519\x25519_import.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\x25519\x25519_make_key.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\x25519\x25519_set_ku.c"
+					>
+				</File>
+				<File
+					RelativePath="src\pk\x25519\x25519_shared_secret.c"
+					>
+				</File>
+				<Filter
+					Name="ref10"
+					>
+					<File
+						RelativePath="src\pk\x25519\ref10\montgomery.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\x25519\ref10\pow225521.h"
+						>
+					</File>
+					<File
+						RelativePath="src\pk\x25519\ref10\x25519.c"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
