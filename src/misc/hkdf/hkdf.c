@@ -55,10 +55,12 @@ int hkdf_expand(int hash_idx, const unsigned char *info, unsigned long infolen,
    hashsize = hash_descriptor[hash_idx].hashsize;
 
    /* RFC5869 parameter restrictions */
-   if (inlen < hashsize || outlen > hashsize * 255)
+   if (inlen < hashsize || outlen > hashsize * 255) {
       return CRYPT_INVALID_ARG;
-   if (info == NULL && infolen != 0)
+   }
+   if (info == NULL && infolen != 0) {
       return CRYPT_INVALID_ARG;
+   }
    LTC_ARGCHK(out != NULL);
 
    Tlen = hashsize + infolen + 1;
@@ -87,8 +89,9 @@ int hkdf_expand(int hash_idx, const unsigned char *info, unsigned long infolen,
       }
       outoff += Noutlen;
 
-      if (outoff >= outlen) /* loop exit condition */
+      if (outoff >= outlen) { /* loop exit condition */
          break;
+      }
 
       /* All subsequent HMAC data T(N) DOES include the previous hash value */
       XMEMCPY(T, out + hashsize * (N-1), hashsize);
